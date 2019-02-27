@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Upload File:</title>
+  <meta http-equiv="Cache-control" content="no-cache">  <!--no cache is stored -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <style>
+  #frontbody {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url("../static/backnew.jpeg");
+  }
+table,th,td {
+  border : 1px solid black;
+  border-collapse: collapse;
+}
+th,td {
+  padding: 5px;
+}
+.demo{
+  color:black;
+}
+</style>
+ </head>
+ <body id="frontbody">
+  <br>
+  <div class="container">
+   <h2 align="center">CSV Uploader</h2>
+   <br />
+   <form method="post" action="{{url_for('loadfile')}}" enctype='multipart/form-data'>
+    <p><label class="demo">Please Select File(Only CSV Formate)</label>
+    <br />
+    <input type="file" name="file" id="fileInput" onchange="checkfile(this); disablelink()" autocomplete="off"></p>
+    <h4>Or</h4>
+      <p><label class="demo">Provide S3 link:</label>
+    <input type=url name="link" onchange="disablefile()" autocomplete="off"></p>
+    <br />
+    <input type="submit"  name="upload" class="btn btn-info" value="Upload">
+   </form>
+   <br />
+   </div>
+
+<script>
+     //fucntion to validate only csv file type.
+     function disablelink(){
+       document.getElementById('link').disabled = true;}
+      function disablefile(){
+        document.getElementById('fileInput').disabled = true;}
+     function checkfile(sender) {
+    //var fileExt = document.getElementById("fileInput").val();
+     var validExts = new Array(".csv");
+     var fileExt = sender.value;
+     fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+     if (validExts.indexOf(fileExt) < 0) {
+        alert("Only CSV file is valid");
+        $('#fileInput').val(null);  //For clearing the Input if file type is other than csv.
+      return false;}
+     else return true;}
+   </script>
+   </body>
+   </html>

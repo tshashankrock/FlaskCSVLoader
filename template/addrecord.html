@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+      <head>
+            <title>Upload File:</title>
+            <meta http-equiv="Cache-control" content="no-cache">  <!--no cache is stored -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+            <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+            <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+            <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+            <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <!-- Styling for the page: -->
+            <style>
+                  .demo2{
+                    width:100px;
+                  }
+                  #frontbody {
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-attachment: fixed;
+                    background-image: url("../static/final.jpeg");
+                  }
+                  #customers {
+                  font-family: Arial, Helvetica, sans-serif;
+                  border-collapse: collapse;
+                  width: 100%;
+                }
+
+                #customers td, #customers th {
+                  border: 1px solid #ddd;
+                  padding: 8px;
+                  /* background-color:black;
+                  color:white; */
+                }
+
+                #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+                #customers tr:hover {background-color: #ddd;}
+
+                #customers th {
+                  padding-top: 12px;
+                  padding-bottom: 12px;
+                  text-align: left;
+                  background-color: #4CAF50;
+                  color: white;
+                }
+                  /* .table td.fit,.table th.fit {
+                  white-space: nowrap;
+                  width: 1%;
+                  } */
+                  /* table,th,td {
+                  border : 1px solid black;
+                  border-collapse: collapse;
+                  font-style: verdana;
+                  background-color: black;
+                  color: white;
+                  }
+                  th,td {
+                  padding: 5px;
+                  } */
+                  a.btn:hover {
+                     -webkit-transform: scale(1.1);
+                     -moz-transform: scale(1.1);
+                     -o-transform: scale(1.1);
+                  }
+                  a.btn {
+                     -webkit-transform: scale(0.8);
+                     -moz-transform: scale(0.8);
+                     -o-transform: scale(0.8);
+                     -webkit-transition-duration: 0.5s;
+                     -moz-transition-duration: 0.5s;
+                     -o-transition-duration: 0.5s;
+                  }
+          </style>
+      </head>
+      <body id="frontbody">
+          <nav class="navbar navbar-expand-xl bg-dark navbar-dark fixed-top">
+                     <a href="{{url_for('loadfile')}}" class="btn btn-primary a-btn-slide-text" style="float:right">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        <span><strong><h5>Home</h5></strong></span>
+                     </a> &nbsp; &nbsp; &nbsp; &nbsp;
+                     <form class="form-inline" action="{{url_for('search')}}" method="post">
+                          <input class="form-control mr-sm-2" name="myInput" type="text" placeholder="Search....." autocomplete="off">
+                          &nbsp;&nbsp;
+                            <select class="form-control" id="dropval" name="droplist" style="height:30px">
+                              {% for i in header %}
+                              <option>{{ i }}</option>
+                              {% endfor %}
+                            </select>
+                          &nbsp;&nbsp;
+                          <button class="btn btn-success" type="submit">Search</button>
+                      </form>
+&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;
+            <a  onclick="exportTableToCSV('hack.csv')" class="btn btn-primary a-btn-slide-text" style="float:right">
+              <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+              <span><strong><h5>Download</h5></strong></span>
+            </a>
+      </nav>
+  <br><br><br><br><br><br><br><br>
+  <table class="table table-hover" id="customers">
+    <thead>
+        <tr>
+          {% for i in header %}
+             <th scope="col"> {{ i }} </th>
+          {% endfor %}
+          <th scope="col">Action</th>
+        </tr>
+     </thead>
+     <tbody>
+        <tr>
+          {% for dt in indexval %}
+            <!-- <td> {{ dt }} <td> -->
+            {% for i in range(collen) %}
+              <td contenteditable="false"> {{ dt[i+1] }} </td>
+            {% endfor %}
+            <td>
+              <button class="editbtn btn btn-secondary" id='{{ dt[0] }}' style="color:black">Edit</button>&nbsp;&nbsp;
+              <button class="dltbtn btn btn-danger"  id= '{{ dt[0] }}' style="color:black">Delete</button>
+            <!-- <button class="dltbtn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span><span><strong>Delete</strong></span></button> -->
+            </td>
+        </tr>
+        <tr>
+          {% endfor %}
+          <form id=demo2 action="{{url_for('addresult')}}" enctype=multipart/form-data method=post align=center>
+        </tr>
+        <tr>
+          {% for i in header %}
+            <!-- <td> <input readonly type=text class=demo2  name="index" placeholder = "Index" value='{{ sno }}'> </td> -->
+            <td> <input type=text name = '{{ i }}' placeholder ='{{ i }}' class=demo2 autocomplete=off required> </td>
+          {% endfor %}
+          <td><input type=submit id=demo2 name="add" class="btn btn-primary a-btn-slide-text" value="Insert Record" style="float:center"> </td>
+        </tr>
+  </table>
+    </form>
+<script>
+    var editdata = [];
+    var index = 0;
+    //var editdatajson = {};
+$('.editbtn').click(function () {
+    var currentTD = $(this).parents('tr').find('td');
+    if ($(this).html() == 'Edit') {   //set or returen the content of the inner html of selected element
+        $.each(currentTD, function () {
+            $(this).prop('contenteditable', true)
+        });
+    } else {
+       $.each(currentTD, function () {
+            $(this).prop('contenteditable', false)
+        });
+    }
+    //alert($(this).html());
+    if ($(this).html() == 'Save'){
+    var j=0;
+         var currentRow=$(this).closest("tr");
+         {% for i in range(collen) %}
+         //editdata[{{ i }}]=currentRow.find("td:eq("+ j +")").html().trim()
+         editdata.push(currentRow.find("td:eq("+ j +")").html().toString().trim());
+         j++;
+         {% endfor %}
+         //editdata.push("editval");
+         //var editdatajson= JSON.stringify(editdata);
+         //alert(editdata);
+         index=this.id;
+         //console.log(JSON.stringify(editdata));
+         $.ajax({
+          type: "GET",
+          contentType: "application/json;charset=utf-8",
+          traditional:true,
+          url: "addrecord",
+          data :{ 'key1':editdata[0],'key2':editdata[1],'key3':editdata[2],'key4':editdata[3],'key5':editdata[4],'key6':editdata[5] ,'indexval':index, 'check':"editval" },
+        //  data :{ 'key1':editdata[0],'key2':editdata[1],'key3':editdata[4], 'indexval' :index, 'check':"editval"}
+          //data: { key:[editdata[0],editdata[1],editdata[2]],"check":"editval"},
+          dataType: "json"
+          });
+    }
+    editdata = [];
+$(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
+});
+$(document).ready(function () {
+    var deletedata=0;
+    var indexval = 0;
+$('.dltbtn').click(function () {
+    if ($(this).html() == 'Delete'){
+    var j=0;
+      deletedata=this.id;
+           $(this).parents('tr').remove()
+         }
+         $.ajax({
+          type: "GET",
+          contentType: "application/json;charset=utf-8",
+          url: "addrecord",
+          traditional: "true",
+          data : { 'key' : deletedata,'check' : "deletevalue" },
+          dataType: "json"
+          });
+          deletedata = [];
+      });
+});
+</script>
+
+<script>
+function downloadCSV(csv, filename) {
+    var csvFile;
+    var downloadLink;
+
+    // CSV file
+    csvFile = new Blob([csv], {type: "text/csv"});
+
+    // Download link
+    downloadLink = document.createElement("a");
+
+    // File name
+    downloadLink.download = filename;
+
+    // Create a link to the file
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+    // Hide download link
+    downloadLink.style.display = "none";
+
+    // Add the link to DOM
+    document.body.appendChild(downloadLink);
+
+    // Click download link
+    downloadLink.click();
+}
+function exportTableToCSV(filename) {
+    var csv = [];
+    var rows = document.querySelectorAll("table tr");
+
+    for (var i = 0; i < rows.length; i++) {
+        var row = [], cols = rows[i].querySelectorAll("td, th");
+
+        for (var j = 0; j < cols.length-1; j++)
+            row.push(cols[j].innerText);
+
+        csv.push(row.join(","));
+    }
+
+    // Download CSV file
+    downloadCSV(csv.join("\n"), filename);
+}
+</script>
+
+
+ </body>
+   </html>
